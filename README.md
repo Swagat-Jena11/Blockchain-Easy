@@ -9,7 +9,3 @@ chain.py ---> Class for the Blockchain. One instance of this class will be calle
 transaction.py ---> Class for Transactions. Defines all data a transaction must contain. All transactions will be an instance of this class.
 wallet.py ---> Class for Wallets. The wallet contains a public key for each user. The wallet also keeps unverified transactions. To create a new user, create an instance of this class.
 miner.py ---> Class for Miner. All operations performed by miners are defined as functions of this class.
-
-
-When as miner you are asked to choose which transactions to verify, please select numbers in ascending order and when finished choosing, enter -1 to finish.
-The program will run the rest without anymore input.
