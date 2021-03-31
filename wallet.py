@@ -1,48 +1,44 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Feb 15 19:07:15 2021
-
-@author: Gigabyte-pc
-"""
 import random
 import string
 from transaction import Transaction
-
+import pickle
+import glob
+import os
 
 class Wallet:
     
-    txns = []
     
     def __init__(self):
-        self.public_id = ''.join(random.choices(string.ascii_uppercase + string.digits, k = 20))
+        self.public_id = ''.join(random.choices(string.ascii_uppercase+string.digits, k=20))
+        self._money = 100
     
-    def advertise(self, txn):
-        self.txns.append(txn)
+    def transact(self, receiver, amount, fees):
+        txn = Transaction(self.public_id, receiver, amount, fees)
+        st = ''.join(random.choices(string.digits,k=10))
+        st = 'TXN'+st
+        tmp = pickle.dump(txn, open(st,'wb'))
+        pickle.STOP
+                
+        
+    def show_transaction():
+        txns = glob.glob('TXN*')
+        li = []
+        for i in txns:
+            tmp = open(i,'rb')
+            li.append(pickle.load(tmp))
+            tmp.close()
+            pickle.STOP
+        for i in li:
+            print(i.sender, i.receiver, i.amount, i.fees)
+        n = list(map(int, input('Choose Transactions to Verify:').split(' ')))
+        n.sort(reverse=1)
+        n = [x-1 for x in n]
+        li2=[]
+        for i in n:
+            os.remove(txns[i])
+            li2.append(li[i])
+        return li2
     
-    def transact(self, receiver, txn, fees):
-        self.txn = Transaction(self.public_id, receiver, txn, fees)
-        self.advertise(self.txn)
-        
-        
-    def show_transactions(self):
-        for i in self.txns:
-            print(i.sender, i.receiver, i.txn, i.fees)
-        print('Select Transactions to Verify')
-        inp_list = []
-        while(True):
-            x = int(input())
-            if(x==-1):
-                break;
-            else:
-                print(x, type(x))
-                inp_list.append(x)
-        print(inp_list)
-        n=[]
-        for i in inp_list:
-            n.append(self.txns[i-1])
-        inp_list.reverse()
-        for i in inp_list:
-            self.txns.pop(i-1)
-        return n
-        
-        
+    def add_money(self,n):
+        self._money+=n
+      

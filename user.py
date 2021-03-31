@@ -58,3 +58,12 @@ for i in blockchain.chn:
     print('Own Hash', i.own_hash)
     print('Previous Hash',i.prev_hash)
     print()
+    
+    
+import pickle
+
+f = open('Block1', 'wb')
+pickle.dump(bl,f)
+
+f = open('Block1', 'rb')
+b = pickle.load(f)
